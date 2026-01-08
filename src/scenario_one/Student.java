@@ -11,13 +11,10 @@ import java.util.Random;
 
 public class Student {
 
-    int studentId;
-    String name;
-    Random random;
+    private final int studentId;
+    private final String name;
+    private final Random random;
 
-    public Student(){
-
-    }
 
     public Student(int studentId,String name,Random random){
         this.studentId=studentId;
@@ -25,24 +22,20 @@ public class Student {
         this.random=random;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public int getStudentId(){
+        return studentId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Random getRandom() {
         return random;
     }
 
-    public void setRandom(Random random) {
-        this.random = random;
-    }
+
+
+
 
 }
