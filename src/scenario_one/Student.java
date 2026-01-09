@@ -10,7 +10,7 @@ package scenario_one;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-/**
+/*
  * This class Represents a student submitting coursework in the university system.
  * This class is immutable to ensure thread safety when multiple threads
  * access student objects concurrently.
@@ -24,11 +24,11 @@ public class Student {
     private final String name;
     private final LocalDateTime submissionTime;
 
-    /**
+    /*
      * Constructs a new student with auto generated submission timestamp
      * The submission time is captured at the moment of object creation
-     * @param studentId studentId Unique identifier for the student
-     * @param name  name Full name of the student
+     * @param studentId Unique identifier for the student
+     * @param name Full name of the student
      */
     public Student(int studentId,String name){
         this.studentId=studentId;
