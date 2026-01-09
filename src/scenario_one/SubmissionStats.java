@@ -2,7 +2,7 @@ package scenario_one;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
+/*
  * Thread-safe statistics tracker for the submission system.
  * Concurrency Strategy:
  * - Uses AtomicInteger for lock-free,thread safe counter operations
