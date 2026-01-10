@@ -2,13 +2,12 @@ package scenario_one;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-/*
- * Thread-safe statistics tracker for the submission system.
- * Concurrency Strategy:
- * - Uses AtomicInteger for lock-free,thread safe counter operations
- * - No explicit synchronization needed
- * - Prevents race conditions when multiple threads update counts simultaneously
+/**
+ * Thread-safe statistics tracker for submission operations.
+ * Uses AtomicInteger for lock-free concurrent updates.
+ * Concurrency Mechanism: AtomicInteger
  */
+
 public class SubmissionStats {
 
     // AtomicInteger provides thread-safe increment operations without locks
@@ -23,7 +22,7 @@ public class SubmissionStats {
         this.totalProcessed = new AtomicInteger(0);
     }
 
-    /*
+    /**
      * Records a successful submission.
      * Thread Safety: This method is called by multiple SubmissionProcessor threads.
      * incrementAndGet() is atomic - guarantees no lost updates even under concurrent access.
@@ -35,7 +34,7 @@ public class SubmissionStats {
         totalProcessed.incrementAndGet();
     }
 
-    /*
+    /**
      * Records a failed submission
      * Thread Safety: Same atomicity guarantees as recordSuccess().
      * Multiple threads can call this simultaneously without data corruption.
@@ -45,7 +44,7 @@ public class SubmissionStats {
         totalProcessed.incrementAndGet();
     }
 
-    /*
+    /**
      * Get the current count of successful submissions.
      * @return current success count (thread safe read)
      */
@@ -53,7 +52,7 @@ public class SubmissionStats {
         return successCount.get();
     }
 
-    /*
+    /**
      * Get the current count of failure submissions.
      * @return current failure count (thread safe read)
      */
@@ -61,7 +60,7 @@ public class SubmissionStats {
         return failureCount.get();
     }
 
-    /*
+    /**
      * Get the total number of processed submissions.
      * @return total number of processed (thread safe read)
      */
@@ -69,12 +68,11 @@ public class SubmissionStats {
         return totalProcessed.get();
     }
 
-    /*
+    /**
      * Calculates the success rate as a percentage.
      * Note: This calculation is NOT atomic - it reads three separate AtomicIntegers.
      * For display purposes, this is acceptable. For critical decisions, would need
      * additional synchronization.
-     *
      * @return Success rate percentage (0.0 to 100.0)
      */
     public double getSuccessRate() {
@@ -86,10 +84,9 @@ public class SubmissionStats {
         return (successCount.get() * 100.0) / total;
     }
 
-    /*
+    /**
      * Displays comprehensive statistics report to console.
      * Called after all submissions complete - no concurrency issues.
-     *
      * @param totalTimeMs Total execution time in milliseconds
      */
     public void displayStats(long totalTimeMs) {
@@ -111,28 +108,6 @@ public class SubmissionStats {
 
         System.out.println("=".repeat(60));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
