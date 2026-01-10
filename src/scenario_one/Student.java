@@ -1,20 +1,12 @@
 package scenario_one;
 
-/*
- COPYRIGHT (C) Dumindu Induwara Gamage-20221168-w19538462-dumindu.20221168@iit.ac.lk. All Rights Reserved.
- 6SENG006W Concurrent Programming  L6 sem 1
- @author Dumindu Induwara Gamage.
- @version Scenario 1 :Submission System
- */
-
 import java.time.LocalDateTime;
 import java.util.Random;
 
-/*
+/**
  * This class Represents a student submitting coursework in the university system.
  * This class is immutable to ensure thread safety when multiple threads
  * access student objects concurrently.
- *
  * Thread safety: Immutable class - all fields are final, and no setters exist.
  */
 public class Student {
@@ -24,11 +16,11 @@ public class Student {
     private final String name;
     private final LocalDateTime submissionTime;
 
-    /*
-     * Constructs a new student with auto generated submission timestamp
-     * The submission time is captured at the moment of object creation
-     * @param studentId Unique identifier for the student
-     * @param name Full name of the student
+    /**
+     * Package-private constructor - only accessible by StudentFactory.
+     * This prevents direct instantiation and enforces factory usage.
+     * @param studentId Unique student identifier
+     * @param name Student's full name
      */
     public Student(int studentId,String name){
         this.studentId=studentId;
