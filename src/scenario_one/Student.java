@@ -1,33 +1,39 @@
 package scenario_one;
 
+import javax.swing.text.DateFormatter;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 /**
- * This class Represents a student submitting coursework in the university system.
- * This class is immutable to ensure thread safety when multiple threads
- * access student objects concurrently.
- * Thread safety: Immutable class - all fields are final, and no setters exist.
+ * Immutable domain object representing a student submission.
+ * Immutability guarantees thread safety without synchronization.
  */
 public class Student {
 
-    // Final fields ensure immutability - cannot be changed after construction
+    //Unique identifier of the student
     private final String studentId;
+
+    //Student display name
     private final String name;
-    private final LocalDateTime submissionTime;
+
+    //Submission timestamp
+    private final Instant submissionTime;
 
     /**
-     * Package-private constructor - only accessible by StudentFactory.
-     * This prevents direct instantiation and enforces factory usage.
-     * @param studentId Unique student identifier
-     * @param name Student's full name
+     * Constructs a valid student object
+     * @param studentId unique student identifier
+     * @param name name of the student
      */
     public Student(String studentId,String name){
+        //Validate inputs before object creation
+        StudentValidator.validatestudent(studentId);
+        StudentValidator.validateName(name);
         this.studentId=studentId;
         this.name=name;
-        // LocalDateTime.now() captures the exact moment of submission
-        // LocalDateTime is thread-safe and immutable
-        this.submissionTime=LocalDateTime.now();
+        this.submissionTime=Instant.now(); // capture submission moment
     }
 
     /**
@@ -50,7 +56,7 @@ public class Student {
      * Returns the exact time when the student submitted.
      * @return Submission representing submission time
      */
-    public LocalDateTime getSubmissionTime() {
+    public Instant getSubmissionTime() {
         return submissionTime;
     }
 
@@ -62,10 +68,14 @@ public class Student {
      */
     @Override
     public String toString() {
-        return "Student{" +
-                "studentId=" + studentId +
-                ", name='" + name + '\'' +
-                ", submissionTime=" + submissionTime +
-                '}';
+        DateTimeFormatter formatter=
+                DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+                        .withZone(ZoneId.systemDefault());
+        return String.format(
+                "Student[ID=%s, Name=%s, Time=%s]",
+                studentId,
+                name,
+                formatter.format(submissionTime)
+        );
     }
 }
