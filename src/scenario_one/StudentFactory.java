@@ -19,7 +19,6 @@ public class StudentFactory {
 
     /**
      * Creates validated Student object.
-     *
      * @param studentId Student identifier
      * @param name Student name
      * @return Validated Student instance
@@ -47,11 +46,9 @@ public class StudentFactory {
      */
     private static String validateAndTrimId(String studentId) {
         validateNotNull(studentId, "Student ID");
-
         String trimmed = studentId.trim();
         validateNotEmpty(trimmed, "Student ID");
         validateLength(trimmed, "Student ID", MIN_ID_LENGTH, MAX_ID_LENGTH);
-
         return trimmed;
     }
 
@@ -60,11 +57,9 @@ public class StudentFactory {
      */
     private static String validateAndTrimName(String name) {
         validateNotNull(name, "Student name");
-
         String trimmed = name.trim();
         validateNotEmpty(trimmed, "Student name");
         validateLength(trimmed, "Student name", MIN_NAME_LENGTH, MAX_NAME_LENGTH);
-
         return trimmed;
     }
 
