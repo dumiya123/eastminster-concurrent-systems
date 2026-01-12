@@ -29,8 +29,8 @@ public class Student {
      */
     public Student(String studentId,String name){
         //Validate inputs before object creation
-        StudentValidator.validatestudent(studentId);
-        StudentValidator.validateName(name);
+        StudentValidator.validateStudentId(studentId);
+        StudentValidator.validateStudentName(name);
         this.studentId=studentId;
         this.name=name;
         this.submissionTime=Instant.now(); // capture submission moment
