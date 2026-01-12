@@ -12,7 +12,7 @@ import java.util.Random;
 public class Student {
 
     // Final fields ensure immutability - cannot be changed after construction
-    private final int studentId;
+    private final String studentId;
     private final String name;
     private final LocalDateTime submissionTime;
 
@@ -22,7 +22,7 @@ public class Student {
      * @param studentId Unique student identifier
      * @param name Student's full name
      */
-    public Student(int studentId,String name){
+    public Student(String studentId,String name){
         this.studentId=studentId;
         this.name=name;
         // LocalDateTime.now() captures the exact moment of submission
@@ -34,7 +34,7 @@ public class Student {
      * Returns the unique student identifier
      * @return Student ID as a String
      */
-    public int getStudentId(){
+    public String getStudentId(){
         return studentId;
     }
 
