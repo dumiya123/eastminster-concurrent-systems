@@ -20,11 +20,12 @@ public class StudentValidator {
         if(studentId==null||studentId.isBlank()){
             throw new IllegalArgumentException("Student ID cannot be null or empty");
         }
-        if (!studentId.matches("STU\\\\d{5}")){
+        if (!studentId.matches("STU\\d+")) {
             throw new IllegalArgumentException(
-                    "Student ID must match pattern STU00000"
+                    "Student ID must start with STU followed by digits"
             );
         }
+
     }
 
     /**
