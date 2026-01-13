@@ -2,51 +2,69 @@ package scenario_one;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
-
 /**
- * Represents a single concurrent submission task.
- * Guarantees latch countdown even on failure.
+ * Single submission processing task.
  */
 public class SubmissionTask implements Runnable {
 
-    //Student being processed
     private final Student student;
-
-    //Shared statistics collector
     private final SubmissionStats stats;
-
-    //Latch coordinating task completion
     private final CountDownLatch latch;
 
-    public SubmissionTask(Student student,SubmissionStats stats,CountDownLatch latch){
-        this.student=student;
-        this.stats=stats;
-        this.latch=latch;
+    public SubmissionTask(Student student, SubmissionStats stats, CountDownLatch latch) {
+        this.student = student;
+        this.stats = stats;
+        this.latch = latch;
     }
 
     @Override
     public void run() {
-        try{
-            //simulate processing latency
-            int delay=ThreadLocalRandom.current().nextInt(50,201);
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
-            //simulate success probability
-            boolean success=ThreadLocalRandom.current().nextDouble() <0.85;
+        boolean success = false;   // outcome decided exactly once
 
-            if (success){
+        try {
+            // Simulated processing time
+            int delay = ThreadLocalRandom.current().nextInt(50, 201);
+            Thread.sleep(delay);
+
+            // Decide outcome
+            success = ThreadLocalRandom.current().nextDouble() < 0.85;
+
+            // Record outcome ONCE
+            if (success) {
                 stats.recordSuccess();
+                SubmissionSystem.printResult(
+                        String.format(
+                                "🟢 %-8s | %-10s | Processed Time: %3d ms | Status: SUCCESS",
+                                student.getStudentId(),
+                                student.getName(),
+                                delay
+                        )
+                );
+            } else {
+                stats.recordFailure();
+                SubmissionSystem.printResult(
+                        String.format(
+                                "🔴 %-8s | %-10s | Processed Time: %3d ms | Status: FAILED",
+                                student.getStudentId(),
+                                student.getName(),
+                                delay
+                        )
+                );
             }
+            // Throttle output slightly (safe)
+            Thread.sleep(5);
 
-
-        }catch (){
-
+        } catch (InterruptedException e) {
+            // Interruption does NOT change the submission result
+            // Outcome already recorded or a task was canceled
+            Thread.currentThread().interrupt();
+        } finally {
+            // ALWAYS signal completion exactly once
+            latch.countDown();
         }
-
     }
 }
+
+
 
