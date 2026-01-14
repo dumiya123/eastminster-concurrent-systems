@@ -41,34 +41,54 @@ public class SubmissionSystem {
         }
     }
 
+    /**
+     * Executes student submissions concurrently and waits for completion.
+     */
     public void processSubmissions() {
 
+        // Holds all student submission requests
         List<Student> students = new ArrayList<>(numberOfStudents);
+
+        // Create independent student tasks (no shared mutable state)
         for (int i = 1; i <= numberOfStudents; i++) {
             students.add(new Student("STU" + i, "Student_" + i));
         }
 
+        // Synchronisation barrier to detect when all tasks finish
         CountDownLatch latch = new CountDownLatch(students.size());
 
+        // Thread pool sized for CPU-bound parallelism
         int poolSize = Runtime.getRuntime().availableProcessors() * 2;
+
+        // Manages worker threads and task scheduling
         ExecutorService executor = Executors.newFixedThreadPool(poolSize);
 
+        // Measure total concurrent execution time
         long start = System.currentTimeMillis();
 
+        // Submit all submissions for parallel execution
         for (Student student : students) {
             executor.execute(new SubmissionTask(student, stats, latch));
         }
-        executor.shutdown(); // graceful shutdown only
+
+        // Prevent new tasks while allowing existing ones to complete
+        executor.shutdown();
 
         try {
-            latch.await();   // WAIT FOR ALL TASKS
+            // Block until every submission signals completion
+            latch.await();
         } catch (InterruptedException e) {
+            // Preserve interruption contract
             Thread.currentThread().interrupt();
         }
 
+        // Capture completion time after all threads finish
         long end = System.currentTimeMillis();
+
+        // Display aggregated, thread-safe statistics
         stats.display(end - start);
     }
+
 
     public static void main(String[] args) {
 
