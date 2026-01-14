@@ -46,7 +46,6 @@ public class Consultant implements Runnable {
 
                 // Log treatment start
                 System.out.printf("🩺 TREATING | %-5s | %-12s | %-8s | Patient #%04d%n", shiftType, speciality, name, patient.getPatientId());
-                System.out.println();
 
                 // Simulate treatment duration
                 Thread.sleep(1200);
