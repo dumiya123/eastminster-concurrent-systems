@@ -1,5 +1,12 @@
 package scenario_two;                             // Producer package
 
+/*
+ COPYRIGHT (C) Dumindu Induwara Gamage-20221168-w1953846-dumindu.20221168@iit.ac.lk. All Rights Reserved.
+ 5SENG003C.2 Concurrent Programming Coursework L6 sem 1
+ @author Dumindu Induwara Gamage.
+ @version 1 Hospital Simulation.
+ */
+
 import java.time.format.DateTimeFormatter; // Time formatting
 import java.util.Map; // Queue mapping
 import java.util.Random;// Random generator

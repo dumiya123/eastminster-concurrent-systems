@@ -1,5 +1,12 @@
 package scenario_one;
 
+/*
+ COPYRIGHT (C) Dumindu Induwara Gamage-20221168-w1953846-dumindu.20221168@iit.ac.lk. All Rights Reserved.
+ 5SENG003C.2 Concurrent Programming Coursework L6 sem 1
+ @author Dumindu Induwara Gamage.
+ @version 1 University Submission Simulation.
+ */
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 /**

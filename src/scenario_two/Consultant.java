@@ -1,5 +1,12 @@
 package scenario_two;
 
+/*
+ COPYRIGHT (C) Dumindu Induwara Gamage-20221168-w1953846-dumindu.20221168@iit.ac.lk. All Rights Reserved.
+ 5SENG003C.2 Concurrent Programming Coursework L6 sem 1
+ @author Dumindu Induwara Gamage.
+ @version 1 Hospital Simulation.
+ */
+
 /**
  * Represents a consultant working during a specific shift.
  * Acts as a CONSUMER in the Producer–Consumer pattern.
