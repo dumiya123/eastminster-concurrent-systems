@@ -49,10 +49,7 @@ public class ShiftManager {
             Thread.sleep(shiftDurationMs);
 
             // Display shift ending message
-            System.out.println(
-                    "════════════ " + currentShift +
-                    " SHIFT ENDING ════════════"
-            );
+            System.out.println("════════════ " + currentShift + " SHIFT ENDING ════════════");
 
             // Interrupt all consultant threads safely
             for (Thread t : consultants) {
