@@ -1,48 +1,62 @@
-package scenario_two;
+package scenario_two;                             // Producer package
 
-import java.util.Map;
-import java.util.Random;
+import java.time.format.DateTimeFormatter; // Time formatting
+import java.util.Map; // Queue mapping
+import java.util.Random;// Random generator
 
-public class PatientArrival implements Runnable{
+/**
+ * Continuously generates patients.
+ * Acts as PRODUCER.
+ */
+public class PatientArrival implements Runnable {
 
-    private final Map<String,PatientQueue> queues;
-    private final Random random;
-    private volatile boolean running=true;
-    private int patientCounter=1;
+    private final Map<String, PatientQueue> queues;// Speciality queues
 
-    public PatientArrival(Map<String,PatientQueue> queues){
-        this.queues=queues;
-        this.random=new Random();
+    private final Random random = new Random(); // Random generator
+
+    private volatile boolean running = true;// Control flag
+
+    private int patientCounter = 1;// ID counter
+
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");         // Time format
+
+    // Constructor
+    public PatientArrival(Map<String, PatientQueue> queues) {
+        this.queues = queues;                                // Assign queues
     }
 
     @Override
     public void run() {
-        try{
-            while(running){
-                Thread.sleep(300);
+        try {
+            while (running) {
+                // Run continuously
+                Thread.sleep(400); // Random arrival gap
 
-                // Random speciality selection
-                String speciality = pickSpeciality();
+                String speciality = pickSpeciality();// Choose speciality
 
-                Patient patient =new Patient(patientCounter++, speciality);
+                Patient patient = new Patient(patientCounter++, speciality); // Create patient
 
-                System.out.println("[ARRIVAL] " + patient);
+                queues.get(speciality).addPatient(patient); // Add to queue
+
+                System.out.printf("🟢 ARRIVAL   | %-12s | Patient #%04d | %s%n", speciality, patient.getPatientId(), patient.getArrivalTime().format(TIME_FORMAT)// Log arrival
+                );
             }
-        }catch (InterruptedException e){
-            Thread.currentThread().interrupt();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupt
         }
     }
 
+    // Randomly select one valid speciality
     private String pickSpeciality() {
-        int value = random.nextInt(3);
-        return value == 0 ? "Cardiology"
-                : value == 1 ? "Neurology"
-                : "Orthopaedics";
+        int r = random.nextInt(3);
+        return r == 0 ? "Paediatrics"
+                : r == 1 ? "Surgery"
+                : "Cardiology";
     }
 
+    // Stop producer safely
     public void stop() {
         running = false;
     }
-
-
 }
+
