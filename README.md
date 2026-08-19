@@ -112,4 +112,4 @@ Both scenarios favor immutability and thread-safe library classes over manual lo
 
 Author: Dumindu Induwara Gamage (20221168)
 Course: 5SENG003C.2 Concurrent Programming Coursework
-University: Eastminster University
+University: University of Westminster
