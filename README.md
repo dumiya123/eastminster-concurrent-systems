@@ -1,148 +1,115 @@
 # Eastminster Concurrent Systems
 
-A fully developed implementation of concurrent programming concepts built as part of a comprehensive coursework project. This repository showcases advanced Java-based concurrent programming techniques, synchronization mechanisms, and multi-threaded application design patterns.
+This is a coursework project implementing concurrent programming principles through real-world scenario simulations. The code demonstrates practical applications of thread management, synchronization, and concurrent design patterns in Java.
 
-## 🎯 Overview
+## Overview
 
-This project demonstrates a complete implementation of concurrent programming principles, focusing on:
-- **Thread Management**: Creation and management of multiple threads with proper lifecycle handling
-- **Synchronization**: Thread-safe operations using locks, monitors, and synchronization primitives
-- **Concurrency Patterns**: Implementation of common concurrent design patterns
-- **Resource Management**: Efficient handling of shared resources in a multi-threaded environment
+The project contains two distinct scenarios that explore different aspects of concurrent programming. Each scenario models a real-world system where multiple threads interact and coordinate to process tasks efficiently.
 
-## 📋 Features
-
-- ✅ Comprehensive concurrent programming implementation
-- ✅ Thread-safe data structures and operations
-- ✅ Synchronization mechanisms and deadlock prevention
-- ✅ Clean, well-documented code following best practices
-- ✅ Modular architecture for easy understanding and extension
-
-## 🛠️ Technology Stack
-
-- **Language**: Java
-- **Build System**: [Maven/Gradle - Update as per your project]
-- **JDK Version**: [Specify your JDK version, e.g., Java 11+]
-
-## 📂 Project Structure
+## Project Structure
 
 ```
-eastminster-concurrent-systems/
-├── src/
-│   ├── main/
-│   │   └── java/
-│   │       └── [Your package structure]
-│   └── test/
-│       └── java/
-│           └── [Your test classes]
-├── docs/
-│   └── [Documentation files]
-├── README.md
-└── [Build configuration files]
+src/
+├── scenario_one/       University submission processing system
+└── scenario_two/       Hospital A&E simulation
 ```
 
-## 🚀 Getting Started
+## Scenario One: University Submission System
 
-### Prerequisites
+The submission system simulates processing student coursework submissions concurrently.
 
-- Java Development Kit (JDK) 11 or higher
-- Maven or Gradle (depending on your build system)
-- Git
+**What it demonstrates:**
+- Multiple student submissions arriving and being processed in parallel
+- Using thread pools to manage worker threads efficiently
+- Coordinating thread completion with synchronization barriers
+- Collecting statistics from concurrent operations without race conditions
 
-### Installation
+**How it works:**
+Students submit their coursework through a system that assigns processing tasks to available worker threads. Each submission takes a variable amount of time to process and may succeed or fail. The system tracks how many submissions succeeded and failed, calculating overall statistics.
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/dumiya123/eastminster-concurrent-systems.git
-   cd eastminster-concurrent-systems
-   ```
+**Key concurrent features:**
+- ExecutorService with a fixed thread pool sized to available CPU cores
+- CountDownLatch to wait for all submissions to complete before displaying results
+- AtomicInteger for thread-safe counters that avoid locks and contention
+- Immutable Student objects passed between threads without synchronization overhead
 
-2. **Build the project**
-   ```bash
-   # Using Maven
-   mvn clean install
-   
-   # Using Gradle
-   gradle build
-   ```
+**Learning outcomes:**
+- How thread pools handle task scheduling and worker thread reuse
+- Why atomic operations are better than synchronized blocks for simple counters
+- How barriers synchronize multiple threads and coordinate completion
+- Techniques for gathering metrics from parallel operations safely
 
-3. **Run the application**
-   ```bash
-   # Using Maven
-   mvn exec:java -Dexec.mainClass="[YourMainClass]"
-   
-   # Using Gradle
-   gradle run
-   ```
+## Scenario Two: Hospital A&E Simulation
 
-## 📖 Usage
+The hospital system simulates the Accident & Emergency department managing patient flow across different specialities.
 
-[Add specific usage instructions for your concurrent system implementation]
+**What it demonstrates:**
+- Producer-consumer pattern with separate threads for patient arrivals and treatment
+- Managing multiple queues for different specialities concurrently  
+- Thread-safe blocking queues handling synchronization automatically
+- Shift management coordinating consultant teams
 
-Example:
-```java
-// Create and start threads
-// Demonstrate synchronization
-// Show concurrent operations
-```
+**How it works:**
+Patients continuously arrive (producer) and are assigned to speciality-specific queues. Consultants work shifts (consumers), taking patients from queues and treating them. The system cycles through day and night shifts. When a shift ends, the consultant thread stops and hands over to the next shift's consultant.
 
-## 🧪 Testing
+**Key concurrent features:**
+- PatientArrival thread continuously generates patients at random intervals
+- BlockingQueue handles all synchronization between producers and consumers
+- Multiple Consultant threads work simultaneously on different specialities
+- ShiftManager orchestrates consultant teams and manages shift transitions
+- Immutable Patient objects ensuring no accidental shared state modification
 
-Run the test suite to verify concurrent behavior:
+**Learning outcomes:**
+- How the producer-consumer pattern separates data creation from processing
+- Why BlockingQueue eliminates manual lock management and condition variables
+- How to coordinate multiple worker threads on shared resources
+- Techniques for managing thread lifecycle during system handovers
+- Handling thread interruption gracefully during shift changes
 
+## Running the Project
+
+**Prerequisites:**
+- Java 11 or higher
+- Standard command line tools
+
+**Scenario One - Submission System:**
 ```bash
-# Using Maven
-mvn test
-
-# Using Gradle
-gradle test
+cd src
+javac scenario_one/*.java
+java scenario_one.SubmissionSystem
 ```
+Follow the prompt to enter the number of students to simulate. The system will process all submissions and display statistics.
 
-## 🎓 Coursework Highlights
+**Scenario Two - Hospital Simulation:**
+```bash
+cd src
+javac scenario_two/*.java
+java scenario_two.HospitalSimulation
+```
+The system runs the entire simulation automatically, showing a day/night cycle with shift handovers.
 
-This implementation covers:
-- Thread creation and lifecycle management
-- Mutual exclusion and critical sections
-- Inter-thread communication and coordination
-- Producer-Consumer patterns
-- Reader-Writer synchronization
-- Deadlock detection and prevention
-- Performance optimization in concurrent systems
+## Key Concepts Covered
 
-## 🔑 Key Concepts Implemented
+**Thread Safety:** Both scenarios use immutable objects (Student, Patient) to safely share data between threads without synchronization overhead.
 
-- **Thread Safety**: Ensuring thread-safe access to shared resources
-- **Locks & Monitors**: Using Java's intrinsic locks and ReentrantLock
-- **Condition Variables**: Coordinating between threads
-- **Atomic Operations**: Non-blocking synchronization techniques
-- **Thread Pools**: Efficient thread management using ExecutorService
+**Synchronization:** 
+- Scenario one uses AtomicInteger for lock-free counters
+- Scenario two uses BlockingQueue which handles all locking internally
 
-## 📚 Documentation
+**Coordination:**
+- Scenario one uses CountDownLatch to wait for completion
+- Scenario two uses thread interruption and shift management for lifecycle control
 
-For detailed documentation on implementation details and design decisions, please refer to the `docs/` directory.
+**Concurrency Patterns:**
+- Scenario one: Thread pool pattern with executor services
+- Scenario two: Producer-consumer pattern with multiple consumers
 
-## 🤝 Contributing
+## Design Decisions
 
-This is a coursework project. For modifications or suggestions, please feel free to fork and create a pull request.
-
-## 📝 License
-
-[Specify your license - e.g., MIT, Apache 2.0, or Academic Use Only]
-
-## ✍️ Author
-
-**Dumiya123**
-- GitHub: [@dumiya123](https://github.com/dumiya123)
-- Project: [Eastminster Concurrent Systems](https://github.com/dumiya123/eastminster-concurrent-systems)
-
-## 🙏 Acknowledgments
-
-- Built as part of Eastminster University coursework
-- Inspired by concurrent programming best practices
-- Special thanks to course instructors and peers for guidance
+Both scenarios favor immutability and thread-safe library classes over manual locking. This reduces the risk of deadlocks and race conditions while keeping the code readable. The blocking queue, atomic types, and countdown latch handle synchronization, allowing the business logic to remain clean and straightforward.
 
 ---
 
-**Last Updated**: August 2026
-
-For questions or feedback, please open an issue on the repository.
+Author: Dumindu Induwara Gamage (20221168)
+Course: 5SENG003C.2 Concurrent Programming Coursework
+University: Eastminster University
